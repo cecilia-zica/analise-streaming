@@ -1,9 +1,18 @@
-# Carregar pacotes necessários
+# ========================================================================
+# Pacotes necessários
+# Carregamento das bibliotecas usadas para leitura, manipulação de dados,
+# visualizações e tratamento de strings.
+# ========================================================================
 library(readr)
 library(dplyr)
 library(ggplot2)
+library(forcats)
+library(stringr)
 
-# Importar a base de dados
+# ========================================================================
+# Importação da base de dados
+# Leitura do arquivo CSV contendo as respostas da pesquisa de streaming.
+# ========================================================================
 dados_streaming <- read.csv(
   "Pesquisa sobre Consumo de Plataformas de Streaming  (respostas) - Respostas ao formulário 1.csv",
   sep = ",",
@@ -11,7 +20,10 @@ dados_streaming <- read.csv(
   encoding = "UTF-8"
 )
 
-# Renomear variáveis para melhorar a legibilidade
+# ========================================================================
+# Renomear variáveis da base
+# Renomeia colunas com nomes extensos para nomes mais curtos e legíveis.
+# ========================================================================
 dados_streaming <- dados_streaming %>%
   rename(
     faixa_etaria = Qual.é.sua.faixa.etária.,
@@ -24,8 +36,28 @@ dados_streaming <- dados_streaming %>%
     frequencia_gosto = Com.que.frequência.você.encontra.algo.que.gosta.nas.plataformas.
   )
 
-##########################
-# Tabelas de Frequências
+# ========================================================================
+# Padronização de respostas da variável "tipo_conteudo"
+# Limpeza de espaços e categorização padronizada para facilitar análises.
+# ========================================================================
+dados_streaming <- dados_streaming %>%
+  mutate(
+    tipo_conteudo = str_trim(tipo_conteudo),
+    tipo_conteudo = case_when(
+      tipo_conteudo == "Séries" ~ "Séries",
+      tipo_conteudo == "Filmes" ~ "Filmes",
+      tipo_conteudo == "Documentários" ~ "Documentários",
+      str_detect(tipo_conteudo, regex("Reality", ignore_case = TRUE)) ~ "Reality shows",
+      str_detect(tipo_conteudo, regex("Esportes", ignore_case = TRUE)) ~ "Esportes ao vivo",
+      str_detect(tipo_conteudo, regex("infantil", ignore_case = TRUE)) ~ "Conteúdo infantil",
+      TRUE ~ "Outros"
+    )
+  )
+
+# ========================================================================
+# Tabelas de frequência
+# Cálculo da frequência absoluta de respostas por categoria de variável.
+# ========================================================================
 faixa_etaria_freq <- dados_streaming %>%
   count(faixa_etaria) %>%
   arrange(desc(n))
@@ -50,60 +82,92 @@ plataforma_secundaria_freq <- dados_streaming %>%
   count(plataforma_secundaria) %>%
   arrange(desc(n))
 
-##########################
-# Definir cores pastel para os gráficos
+# ========================================================================
+# Definição de paleta de cores pastel para os gráficos
+# ========================================================================
 cores_pastel <- c("#FFD1DC", "#BDE0FE", "#FFF4B2", "#C1F5D6", "#E6CCFF", "#FFB3C6", 
                   "#FFCCE5", "#D1F1FF", "#FFE6B2", "#C7F7D2")
 
-##########################
-# Gráficos de Barras
+# ========================================================================
+# Gráficos de barras (6 gráficos)
+# Visualizações das frequências categóricas em gráficos coloridos.
+# ========================================================================
 
-# Faixa Etária
+# Faixa etária dos respondentes
 ggplot(faixa_etaria_freq, aes(x = reorder(faixa_etaria, -n), y = n, fill = faixa_etaria)) +
   geom_bar(stat = "identity") +
   scale_fill_manual(values = cores_pastel) +
   labs(title = "Distribuição por Faixa Etária", x = "Faixa Etária", y = "Número de Respondentes") +
   theme_light(base_family = "sans")
 
-# Forma de Acesso
+# Forma de acesso às plataformas
 ggplot(forma_acesso_freq, aes(x = reorder(forma_acesso, -n), y = n, fill = forma_acesso)) +
   geom_bar(stat = "identity") +
   scale_fill_manual(values = cores_pastel) +
   labs(title = "Forma de Acesso às Plataformas de Streaming", x = "Forma de Acesso", y = "Número de Respondentes") +
   theme_light(base_family = "sans")
 
-# Plataforma Principal
+# Plataforma mais utilizada
 ggplot(plataforma_principal_freq, aes(x = reorder(plataforma_principal, -n), y = n, fill = plataforma_principal)) +
   geom_bar(stat = "identity") +
   scale_fill_manual(values = cores_pastel) +
   labs(title = "Plataforma de Streaming Mais Utilizada", x = "Plataforma Principal", y = "Número de Respondentes") +
   theme_light(base_family = "sans")
 
-# Tipo de Conteúdo
+# Tipo de conteúdo mais consumido
 ggplot(tipo_conteudo_freq, aes(x = reorder(tipo_conteudo, -n), y = n, fill = tipo_conteudo)) +
   geom_bar(stat = "identity") +
   scale_fill_manual(values = cores_pastel) +
   labs(title = "Tipo de Conteúdo Mais Consumido", x = "Tipo de Conteúdo", y = "Número de Respondentes") +
-  theme_light(base_family = "sans")
+  theme_light(base_family = "sans") +
+  theme(
+    axis.text.x = element_text(angle = 0, size = 10),
+    legend.position = "none"
+  )
 
-# Frequência de Satisfação
-ggplot(frequencia_gosto_freq, aes(x = reorder(frequencia_gosto, -n), y = n, fill = frequencia_gosto)) +
-  geom_bar(stat = "identity") +
+# Frequência de satisfação dos usuários
+niveis_ordenados <- str_wrap(c(
+  "Raramente (menos de 1x por semana)",
+  "Às vezes (1–2x por semana)",
+  "Frequentemente (3–5x por semana)",
+  "Sempre (quase todos os dias)"
+), width = 20)
+
+frequencia_gosto_freq$frequencia_gosto <- str_wrap(
+  frequencia_gosto_freq$frequencia_gosto, width = 20
+)
+
+frequencia_gosto_freq$frequencia_gosto <- factor(
+  frequencia_gosto_freq$frequencia_gosto,
+  levels = niveis_ordenados
+)
+
+ggplot(frequencia_gosto_freq, aes(x = frequencia_gosto, y = n, fill = frequencia_gosto)) +
+  geom_bar(stat = "identity", alpha = 0.85, show.legend = FALSE) +
   scale_fill_manual(values = cores_pastel) +
-  labs(title = "Frequência de Satisfação com Conteúdo", x = "Frequência", y = "Número de Respondentes") +
-  theme_light(base_family = "sans")
+  labs(
+    title = "Frequência de Satisfação com Conteúdo",
+    x = "Frequência",
+    y = "Número de Respondentes"
+  ) +
+  theme_minimal(base_family = "sans") +
+  theme(
+    plot.title = element_text(face = "bold", size = 14, hjust = 0.5),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 10)
+  )
 
-# Plataforma Secundária
+# Plataformas secundárias utilizadas
 ggplot(plataforma_secundaria_freq, aes(x = reorder(plataforma_secundaria, -n), y = n, fill = plataforma_secundaria)) +
   geom_bar(stat = "identity") +
   scale_fill_manual(values = cores_pastel) +
   labs(title = "Plataformas Secundárias Utilizadas", x = "Plataforma Secundária", y = "Número de Respondentes") +
   theme_light(base_family = "sans")
 
-##########################
-# Resumos Estatísticos
-
-# Horas de Uso
+# ========================================================================
+# Estatísticas descritivas para variáveis numéricas
+# Cálculo de média, mediana, desvio padrão, mínimo e máximo
+# ========================================================================
 summary_horas_uso <- dados_streaming %>%
   summarise(
     media = mean(horas_uso, na.rm = TRUE),
@@ -113,7 +177,6 @@ summary_horas_uso <- dados_streaming %>%
     maximo = max(horas_uso, na.rm = TRUE)
   )
 
-# Valor Pago
 summary_valor_pago <- dados_streaming %>%
   summarise(
     media = mean(valor_pago, na.rm = TRUE),
@@ -123,41 +186,63 @@ summary_valor_pago <- dados_streaming %>%
     maximo = max(valor_pago, na.rm = TRUE)
   )
 
-##########################
-# Análises Bivariadas
+# ========================================================================
+# Boxplots comparativos (3 gráficos)
+# Análises bivariadas com distribuições por grupo
+# ========================================================================
 
-# Gráfico boxplot - Valor Pago por Faixa Etária
-ggplot(dados_streaming, aes(x = faixa_etaria, y = valor_pago, fill = faixa_etaria)) +
-  geom_boxplot(alpha = 0.8) +
+# Valor pago por faixa etária
+ggplot(dados_streaming, aes(x = valor_pago, 
+                            y = fct_rev(faixa_etaria), 
+                            fill = faixa_etaria)) +
+  geom_boxplot(outlier.shape = 21, outlier.size = 2, alpha = 0.8, show.legend = FALSE) +
   scale_fill_manual(values = cores_pastel) +
-  labs(title = "Valor Pago por Faixa Etária", x = "Faixa Etária", y = "Valor Pago (R$)") +
-  theme_light(base_family = "sans") +
-  coord_flip() +
-  theme(plot.title = element_text(hjust = 0.5))
+  labs(
+    title = "Valor Pago por Faixa Etária",
+    x = "Valor Pago (R$)",
+    y = "Faixa Etária"
+  ) +
+  theme_minimal(base_family = "sans") +
+  theme(
+    plot.title = element_text(face = "bold", size = 14, hjust = 0.5),
+    axis.title = element_text(size = 12),
+    axis.text.y = element_text(size = 10),
+    axis.text.x = element_text(size = 10)
+  )
 
-# Gráfico boxplot - Horas de Uso por Forma de Acesso
-ggplot(dados_streaming, aes(x = forma_acesso, y = horas_uso, fill = forma_acesso)) +
-  geom_boxplot(alpha = 0.8) +
+# Horas de uso por forma de acesso
+ggplot(dados_streaming, aes(x = horas_uso, 
+                            y = fct_rev(forma_acesso), 
+                            fill = forma_acesso)) +
+  geom_boxplot(outlier.shape = 21, outlier.size = 2, alpha = 0.8, show.legend = FALSE) +
   scale_fill_manual(values = cores_pastel) +
-  labs(title = "Horas de Uso por Forma de Acesso", x = "Forma de Acesso", y = "Horas de Uso por Semana") +
-  theme_light(base_family = "sans") +
-  coord_flip() +
-  theme(plot.title = element_text(hjust = 0.5))
+  labs(
+    title = "Horas de Uso por Forma de Acesso",
+    x = "Horas de Uso por Semana",
+    y = "Forma de Acesso"
+  ) +
+  theme_minimal(base_family = "sans") +
+  theme(
+    plot.title = element_text(face = "bold", size = 14, hjust = 0.5),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 10)
+  )
 
-##########################
-# Tabelas Resumo para Bivariadas
+# ========================================================================
+# Conversão de texto para número (valor_pago)
+# Limpeza de símbolos e conversão para tipo numérico
+# ========================================================================
+dados_streaming <- dados_streaming %>%
+  mutate(
+    valor_pago = str_replace_all(valor_pago, "R\\$|\\,", ""),
+    valor_pago = str_trim(valor_pago),
+    valor_pago = as.numeric(valor_pago)
+  )
 
-# Média Horas de Uso por Forma de Acesso
-media_horas_por_forma <- dados_streaming %>%
-  group_by(forma_acesso) %>%
-  summarise(
-    media_horas_uso = mean(horas_uso, na.rm = TRUE),
-    mediana_horas_uso = median(horas_uso, na.rm = TRUE),
-    n = n()
-  ) %>%
-  arrange(desc(media_horas_uso))
-
-# Média Valor Pago por Faixa Etária
+# ========================================================================
+# Resumo do valor pago por faixa etária
+# Tabela com média, mediana e total de respostas por faixa
+# ========================================================================
 media_valor_por_faixa <- dados_streaming %>%
   group_by(faixa_etaria) %>%
   summarise(
@@ -167,22 +252,45 @@ media_valor_por_faixa <- dados_streaming %>%
   ) %>%
   arrange(desc(media_valor_pago))
 
-##########################
-# Gráfico de barras empilhadas pastel - Frequência de Gosto × Faixa Etária
-ggplot(dados_streaming, aes(x = faixa_etaria, fill = frequencia_gosto)) +
-  geom_bar(position = "fill") +
-  scale_fill_manual(values = cores_pastel) +
-  labs(title = "Proporção de Satisfação por Faixa Etária", x = "Faixa Etária", y = "Proporção") +
-  theme_light(base_family = "sans") +
-  theme(plot.title = element_text(hjust = 0.5))
-
-##########################
-# Gráfico boxplot rosa pastel - Valor Pago por Tipo de Conteúdo
-ggplot(dados_streaming, aes(x = tipo_conteudo, y = valor_pago, fill = tipo_conteudo)) +
-  geom_boxplot(alpha = 0.8) +
-  scale_fill_manual(values = cores_pastel) +
-  labs(title = "Valor Pago por Tipo de Conteúdo", x = "Tipo de Conteúdo", y = "Valor Pago (R$)") +
-  theme_light(base_family = "sans") +
+# Gráfico de barras horizontal com média por faixa etária
+ggplot(media_valor_por_faixa, aes(x = reorder(faixa_etaria, media_valor_pago), y = media_valor_pago, fill = faixa_etaria)) +
+  geom_col(show.legend = FALSE) +
   coord_flip() +
-  theme(plot.title = element_text(hjust = 0.5))
+  labs(
+    title = "Média de Valor Pago por Faixa Etária",
+    x = "Faixa Etária",
+    y = "Valor Médio Pago (R$)"
+  ) +
+  scale_fill_manual(values = cores_pastel) +
+  theme_minimal(base_family = "sans") +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 10)
+  )
+
+# ========================================================================
+# Boxplot final: valor pago por tipo de conteúdo
+# Observa variações de gasto entre categorias de conteúdo assistido
+# ========================================================================
+ggplot(dados_streaming, aes(x = valor_pago, 
+                            y = fct_rev(fct_infreq(tipo_conteudo)), 
+                            fill = tipo_conteudo)) +
+  geom_boxplot(outlier.shape = 21, outlier.size = 2, alpha = 0.8, show.legend = FALSE) +
+  labs(
+    title = "Valor Pago por Tipo de Conteúdo",
+    x = "Valor Pago (R$)",
+    y = "Tipo de Conteúdo"
+  ) +
+  scale_fill_manual(values = c(
+    "#FFB6B9", "#FFDAC1", "#B5EAD7",
+    "#E2F0CB", "#C7CEEA", "#F6C1D5"
+  )) +
+  theme_minimal(base_family = "sans") +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    axis.title = element_text(size = 12),
+    axis.text.y = element_text(size = 9),
+    axis.text.x = element_text(size = 10)
+  )
 
