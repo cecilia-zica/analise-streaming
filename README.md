@@ -32,31 +32,31 @@ Este projeto analisa o comportamento de usuários de plataformas de streaming co
   - `dplyr`, `ggplot2`, `tidyr`, `stringr`, `forcats` (R)
 
 ---
-
 ## 🗂 Estrutura do Projeto
 
-```bash
-📁 dados/
-    └── base_streaming.csv              # Base de respostas da pesquisa
+- **dados/**  
+  Contém a base original da pesquisa (`base_streaming.csv`)
 
-📁 scripts/
-    └── analise_streaming.R             # Script completo da análise
+- **scripts/**  
+  Código-fonte da análise em R (`analise_streaming.R`)
 
-📁 doc/
-    └── relatorio_final.docx            # Documento com análise completa
+- **doc/**  
+  Documento Word com o relatório completo da análise (`relatorio_final.docx`)
 
-README.md
+- `README.md`  
+  Este arquivo de apresentação do projeto
+
 
 📊 Principais Resultados
-YouTube lidera como plataforma principal, à frente da Netflix e outras pagas.
+YouTube lidera como plataforma principal, superando a Netflix e outras opções pagas.
 
-Séries são o formato mais consumido, refletindo hábitos de maratona (binge-watching).
+Séries são o formato de conteúdo mais consumido, reforçando o hábito de maratonar (binge-watching).
 
-Cerca de 30% dos usuários usam contas de terceiros sem pagar, apesar das restrições recentes.
+Cerca de 30% dos usuários utilizam contas de terceiros sem pagar, mesmo após tentativas de restrição por plataformas.
 
-Apenas 14% dizem estar sempre satisfeitos com o conteúdo disponível.
+Apenas 14% afirmam estar sempre satisfeitos com o conteúdo disponível.
 
-O maior investimento mensal em streaming ocorre na faixa 25–34 anos.
+O maior investimento mensal ocorre na faixa 25–34 anos, seguida pela de 18–24.
 
 📈 Gráficos e Indicadores Analisados
 Distribuição por Faixa Etária
@@ -80,18 +80,23 @@ Média de Valor por Faixa Etária
 Valor Pago por Tipo de Conteúdo
 
 💡 Insights Estratégicos
-As plataformas gratuitas e acessíveis continuam sendo dominantes no dia a dia dos universitários.
+Gratuidade e acessibilidade seguem como diferenciais-chave entre estudantes universitários.
 
-Compartilhamento de contas persiste como padrão cultural, mesmo frente a barreiras impostas.
+O compartilhamento informal de contas permanece culturalmente enraizado, mesmo com tentativas de limitação.
 
-Há oportunidade para melhorar algoritmos de recomendação e curadoria de conteúdo.
+Plataformas podem melhorar seus algoritmos de recomendação e curadoria para reduzir a sensação de catálogo repetitivo.
 
-Modelos de negócios baseados em planos flexíveis e freemium tendem a ter maior aceitação.
+Modelos de assinatura mais flexíveis e acessíveis (freemium, planos universitários) tendem a ter melhor aceitação nesse público.
 
 👩‍💻 Sobre a Autora
-
 Cecília Zica
-Estudante de análise de dados com interesse em comportamento digital, mídia sob demanda e aplicações estatísticas em R.
+Estudante de análise de dados, com interesse em comportamento digital, mídia sob demanda e visualização de dados em R.
+
+GitHub: @cecilia-zica
+
+LinkedIn: linkedin.com/in/cecilia-zica-camargo
+
+
 
 [GitHub](https://github.com/cecilia-zica)
 
