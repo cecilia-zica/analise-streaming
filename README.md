@@ -15,16 +15,17 @@ A análise tem como objetivo explorar dados relacionados ao consumo de plataform
 ---
 ## Como Executar
 
-1. Clone este repositório para o seu computador:
+   1. Clone este repositório para o seu computador:
 
    ```bash
    git clone https://github.com/cecilia-zica/analise-streaming.git
 
-2.Instale o R em seu sistema.
 
-3.Abra o script Anexos.R em seu ambiente R.
+   2.Instale o R em seu sistema.
 
-4.Execute o script para iniciar a análise dos dados.
+   3.Abra o script Anexos.R em seu ambiente R.
+
+   4.Execute o script para iniciar a análise dos dados.
 
 ## 📌 Objetivos da Análise
 
