@@ -1,16 +1,30 @@
 # 🎬 Análise de Consumo em Plataformas de Streaming
 
 ![R](https://img.shields.io/badge/Linguagem-R-blue?logo=r)
-[![Status](https://img.shields.io/badge/Status-Em%20desenvolvimento-yellow)](https://img.shields.io/badge/Status-Finalizado-green)
+![Status](https://img.shields.io/badge/Status-Finalizado-green)
 ![License](https://img.shields.io/badge/Licença-MIT-green)
 ![Made by Cecília Zica](https://img.shields.io/badge/Feito%20por-Cecília%20Zica-purple)
 
-Este projeto analisa o comportamento de usuários de plataformas de streaming com foco em **universitários brasileiros**, utilizando técnicas de análise de dados em R. O objetivo é identificar padrões de acesso, preferências de conteúdo, gastos mensais e níveis de satisfação.
+Este projeto realiza uma análise de dados de plataformas de streaming, como parte de um estudo de probabilidade e estatística.
 
+Descrição
+A análise tem como objetivo explorar dados relacionados ao consumo de plataformas de streaming, como comportamento dos usuários, preferências e padrões de consumo. A pesquisa foi realizada com uma amostra de usuários de diferentes plataformas de streaming, como Netflix, Youtube, etc.
 > 📄 **[Visualize a análise em PDF](doc/relatorio_final.pdf)** 
 > *Relatório com interpretações detalhadas, gráficos comentados e insights estratégicos.*
 
 ---
+## Como Executar
+
+1. Clone este repositório para o seu computador:
+
+   ```bash
+   git clone https://github.com/cecilia-zica/analise-streaming.git
+
+2.Instale o R em seu sistema.
+
+3.Abra o script Anexos.R em seu ambiente R.
+
+4.Execute o script para iniciar a análise dos dados.
 
 ## 📌 Objetivos da Análise
 
@@ -49,17 +63,7 @@ Este projeto analisa o comportamento de usuários de plataformas de streaming co
 
 ---
 
-## 📊 Principais Resultados
-
-- **YouTube** lidera como plataforma principal, superando a Netflix e outras opções pagas
-- **Séries** são o formato mais consumido, reforçando o hábito de maratonar (binge-watching)
-- Cerca de **30% dos usuários utilizam contas de terceiros sem pagar**, mesmo após tentativas de restrição
-- Apenas **14% afirmam estar sempre satisfeitos** com o conteúdo disponível
-- O maior investimento mensal ocorre na faixa **25–34 anos**, seguida por 18–24
-
----
-
-## 📈 Gráficos e Indicadores Analisados
+## Gráficos e Indicadores Analisados
 
 1. Distribuição por Faixa Etária  
 2. Forma de Acesso às Plataformas  
@@ -71,15 +75,6 @@ Este projeto analisa o comportamento de usuários de plataformas de streaming co
 8. Horas de Uso por Forma de Acesso  
 9. Média de Valor por Faixa Etária  
 10. Valor Pago por Tipo de Conteúdo
-
----
-
-## 💡 Insights Estratégicos
-
-- **Gratuidade e acessibilidade** são diferenciais-chave entre estudantes universitários
-- O **compartilhamento informal de contas** continua sendo prática comum, apesar das limitações impostas por plataformas
-- Há oportunidade para **melhorar os sistemas de recomendação e curadoria**
-- **Modelos de assinatura flexíveis**, como freemium ou planos para grupos/universitários, tendem a ter maior aceitação
 
 ---
 
