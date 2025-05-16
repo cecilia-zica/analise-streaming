@@ -53,7 +53,7 @@ A análise tem como objetivo explorar dados relacionados ao consumo de plataform
 ├── base_streaming.csv      # Base original coletada via formulário
 
 📁 doc/
-├── relatorio_final.docx    # Relatório completo com análises, gráficos e interpretações
+├── relatorio_final.pdf    # Relatório completo com análises, gráficos e interpretações
 
 📁 scripts/
 ├── analise_streaming.R     # Script principal em R: limpeza, visualizações e análise
