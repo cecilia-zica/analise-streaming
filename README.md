@@ -7,7 +7,7 @@
 
 Este projeto analisa o comportamento de usuários de plataformas de streaming com foco em **universitários brasileiros**, utilizando técnicas de análise de dados em R. O objetivo é identificar padrões de acesso, preferências de conteúdo, gastos mensais e níveis de satisfação.
 
-> 📄 **[Acesse aqui a análise completa em Word (em breve)](#)**  
+> 📄 **[Visualize a análise em PDF](doc/relatorio_final.pdf)** 
 > *Relatório com interpretações detalhadas, gráficos comentados e insights estratégicos.*
 
 ---
@@ -35,17 +35,17 @@ Este projeto analisa o comportamento de usuários de plataformas de streaming co
 
 ## 🗂 Estrutura do Projeto
 
-- **dados/**  
-  Contém a base original da pesquisa (`base_streaming.csv`)
+📁 dados/
+├── base_streaming.csv      # Base original coletada via formulário
 
-- **scripts/**  
-  Código-fonte da análise em R (`analise_streaming.R`)
+📁 doc/
+├── relatorio_final.docx    # Relatório completo com análises, gráficos e interpretações
 
-- **doc/**  
-  Documento Word com o relatório completo da análise (`relatorio_final.docx`)
+📁 scripts/
+├── analise_streaming.R     # Script principal em R: limpeza, visualizações e análise
 
-- `README.md`  
-  Este arquivo de apresentação do projeto
+📄 README.md                 # Visão geral do projeto e instruções
+
 
 ---
 
