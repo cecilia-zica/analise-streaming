@@ -1,7 +1,7 @@
 # 🎬 Análise de Consumo em Plataformas de Streaming
 
 ![R](https://img.shields.io/badge/Linguagem-R-blue?logo=r)
-![Status](https://img.shields.io/badge/Status-Em%20desenvolvimento-yellow)
+[![Status](https://img.shields.io/badge/Status-Em%20desenvolvimento-yellow)](https://img.shields.io/badge/Status-Finalizado-green)
 ![License](https://img.shields.io/badge/Licença-MIT-green)
 ![Made by Cecília Zica](https://img.shields.io/badge/Feito%20por-Cecília%20Zica-purple)
 
